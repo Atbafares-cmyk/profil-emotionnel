@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark light">
+<title>Mon profil émotionnel - Exercice 6</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#15161C; --surface:#1E2029; --surface2:#262935; --text:#E8EAF0; --muted:#A2A7B8;
+  --border:#343848; --accent:#F0BE72; --on-accent:#15161C; --shadow:0 1px 3px rgba(0,0,0,.5);
+  --soft:rgba(255,255,255,.10); --soft:color-mix(in srgb, var(--accent) 20%, transparent);
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF; --surface:#F4F6F9; --surface2:#ECEEF1; --text:#33334D; --muted:#55556E;
+  --border:#D4DCE4; --accent:#8A5A00; --on-accent:#FFFFFF; --shadow:0 1px 3px rgba(51,51,77,.12);
+  --soft:rgba(5,100,174,.10); --soft:color-mix(in srgb, var(--accent) 14%, transparent);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#FFFFFF; --surface:#F4F6F9; --surface2:#ECEEF1; --text:#33334D; --muted:#55556E;
+    --border:#D4DCE4; --accent:#8A5A00; --on-accent:#FFFFFF; --shadow:0 1px 3px rgba(51,51,77,.12);
+    --soft:rgba(5,100,174,.10); --soft:color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:17px;line-height:1.5;overflow-x:hidden}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 120px}
+header.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--border)}
+header.top .in{max-width:720px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.kicker{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:700}
+header.top h1{font-size:16px;margin:2px 0 0;font-weight:700;line-height:1.25}
+.prog{margin-left:auto;text-align:right;flex:0 0 auto}
+.prog b{font-size:17px;font-variant-numeric:tabular-nums}
+.prog span{display:block;font-size:11px;color:var(--muted)}
+.bar{height:3px;background:var(--border)}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:16px;margin:16px 0;box-shadow:var(--shadow)}
+.card h2{margin:0 0 8px;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.card.warn{border-color:var(--accent);background:var(--soft)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:999px;
+  padding:5px 12px;font-size:13px;color:var(--muted)}
+ul.cons{margin:0;padding-left:20px}
+ul.cons li{margin:5px 0}
+.legend{position:sticky;top:var(--stick,58px);z-index:15;background:var(--bg);
+  border-bottom:1px solid var(--border);padding:7px 0;margin:0 -16px 4px;}
+.legend .in{display:flex;gap:6px;padding:0 16px;font-size:11px;color:var(--muted);
+  max-width:720px;margin:0 auto}
+.legend .in span{flex:1 1 0;text-align:center;line-height:1.2}
+.res{scroll-margin-top:12px}
+body.done .legend{display:none}
+.grp{margin:26px 0 8px;font-size:14px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--accent)}
+.q{border-bottom:1px solid var(--border);padding:14px 0}
+.q .lbl{display:flex;gap:10px;margin-bottom:10px}
+.q .n{flex:0 0 auto;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;min-width:1.6em}
+.opts{display:flex;gap:6px}
+.opts button{flex:1 1 0;min-height:46px;border:1.5px solid var(--border);background:var(--surface);
+  color:var(--text);border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;
+  font-variant-numeric:tabular-nums;padding:4px 2px;-webkit-tap-highlight-color:transparent}
+.opts button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.opts.wide button{min-height:40px;font-size:14px}
+.chosen{font-size:13px;color:var(--muted);margin-top:7px;min-height:1.1em}
+.poles{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:9px}
+.poles b{font-weight:600}
+.poles .r{text-align:right;color:var(--accent)}
+.go{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bg);
+  border-top:1px solid var(--border);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.go .in{max-width:720px;margin:0 auto}
+.go button{width:100%;min-height:52px;border:0;border-radius:12px;background:var(--accent);
+  color:var(--on-accent);font-size:17px;font-weight:700;cursor:pointer}
+.go button:disabled{background:var(--surface2);color:var(--muted);cursor:not-allowed}
+.res{display:none}
+.res.on{display:block}
+.score{text-align:center;padding:22px 16px}
+.score .big{font-size:56px;font-weight:800;line-height:1;color:var(--accent);
+  font-variant-numeric:tabular-nums}
+.score .sur{font-size:15px;color:var(--muted);margin-top:6px}
+.score .pal{font-size:21px;font-weight:700;margin-top:14px}
+.subs{display:flex;flex-direction:column;gap:10px}
+.sub{display:flex;align-items:center;gap:12px}
+.sub .nm{flex:0 0 42%;font-size:14px}
+.sub .tr{flex:1 1 auto;height:12px;background:var(--surface2);border-radius:999px;overflow:hidden}
+.sub .tr i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.sub .vl{flex:0 0 auto;font-weight:700;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+.prof{margin:10px 0}
+.prof .ln{display:flex;align-items:center;gap:8px;font-size:12px;margin:9px 0}
+.prof .ln .a{flex:0 0 30%;text-align:right;color:var(--muted)}
+.prof .ln .b{flex:0 0 30%;color:var(--muted)}
+.prof .tr{flex:1 1 auto;position:relative;height:22px}
+.prof .tr .ax{position:absolute;top:10px;left:0;right:0;height:2px;background:var(--border)}
+.prof .tr .d{position:absolute;top:4px;width:14px;height:14px;border-radius:50%;
+  background:var(--accent);transform:translateX(-7px)}
+.prof .tr .d.old{background:transparent;border:2px solid var(--muted)}
+.again{display:block;width:100%;min-height:48px;margin-top:8px;border:1.5px solid var(--border);
+  background:var(--surface);color:var(--text);border-radius:12px;font-size:16px;cursor:pointer}
+.seg{display:flex;gap:6px;margin-top:12px}
+.seg button{flex:1 1 0;min-height:42px;border:1.5px solid var(--border);background:var(--surface);
+  color:var(--text);border-radius:10px;font-size:14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+footer{border-top:1px solid var(--border);margin-top:28px;padding:18px 0;font-size:12px;color:var(--muted)}
+footer p{margin:5px 0}
+.tog{position:fixed;right:12px;bottom:82px;z-index:40;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);border-radius:999px;width:44px;height:44px;
+  font-size:19px;line-height:1;cursor:pointer;box-shadow:var(--shadow);opacity:.92;padding:0}
+.tog:hover,.tog:focus{opacity:1}
+a{color:var(--accent)}
+.idx{display:block;text-decoration:none;color:inherit}
+.idx .card{transition:border-color .15s}
+.idx:hover .card,.idx:focus .card{border-color:var(--accent)}
+.idx h3{margin:0 0 4px;font-size:18px}
+@media print{
+  :root{--bg:#fff;--surface:#fff;--surface2:#f2f2f2;--text:#000;--muted:#444;--border:#bbb;
+    --accent:#000;--on-accent:#fff;--soft:#f2f2f2;--shadow:none}
+  .tog,.go,header.top,.legend{display:none !important}
+  body{font-size:12pt}
+}
+</style>
+<script>
+(function(){try{var t=localStorage.getItem('ef-theme');
+if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();
+</script>
+</head>
+<body>
+<header class="top"><div class="in"><div><div class="kicker">Exercice 6</div><h1>Mon profil émotionnel</h1></div><div class="prog"><b id="pc">0</b><span>sur 30</span></div></div><div class="bar"><i id="pb"></i></div></header><div class="wrap"><div class="card"><h2>Ce que ce test mesure</h2><p>Ce test situe vos compétences dans les cinq domaines de l'intelligence émotionnelle. Il permet d'identifier ce que vous voulez conserver et ce que vous voulez faire évoluer.</p><div class="meta"><span class="chip">20 min</span><span class="chip">Livret page 21</span><span class="chip">Individuel, en silence</span></div></div><div class="card warn"><h2>Attention</h2><p>Ne cherchez pas à dire ce qu'il conviendrait de faire, mais ce que vous faites aujourd'hui. Sans aucun jugement.</p></div><div class="card"><h2>Comment répondre</h2><ul class="cons"><li>Pour chacune des 30 propositions, donnez-vous un score de 1 à 6.</li><li>1 signifie « presque jamais », 6 signifie « presque à chaque fois ».</li><li>Répondez spontanément.</li><li>Les totaux par compétence et le total général sont calculés automatiquement.</li></ul></div><div class="legend"><div class="in" style="justify-content:space-between"><span style="text-align:left"><b>1</b> presque jamais</span><span style="text-align:right"><b>6</b> presque à chaque fois</span></div></div><div class="q" data-q="1"><div class="lbl"><span class="n">1</span><span>Je sens quand quelqu'un ne va pas bien.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="2"><div class="lbl"><span class="n">2</span><span>Je sais dire quand je ne suis pas satisfait.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="3"><div class="lbl"><span class="n">3</span><span>Les gens me parlent facilement de leurs émotions.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="4"><div class="lbl"><span class="n">4</span><span>Je sais ce qui déclenche mes émotions.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="5"><div class="lbl"><span class="n">5</span><span>Quand on m'agresse, je cherche à comprendre.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="6"><div class="lbl"><span class="n">6</span><span>Au travail, je m'adapte aux émotions des autres.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="7"><div class="lbl"><span class="n">7</span><span>Je sais canaliser mes émotions de manière constructive.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="8"><div class="lbl"><span class="n">8</span><span>En cas de désaccord, je sais le dire sans énervement.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="9"><div class="lbl"><span class="n">9</span><span>Je suis de nature optimiste.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="10"><div class="lbl"><span class="n">10</span><span>Je félicite facilement les réussites des autres.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="11"><div class="lbl"><span class="n">11</span><span>Quand je ressens une émotion, je sais facilement de laquelle il s'agit.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="12"><div class="lbl"><span class="n">12</span><span>Quand je me sens mal, je sais pourquoi.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="13"><div class="lbl"><span class="n">13</span><span>Je supporte la frustration.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="14"><div class="lbl"><span class="n">14</span><span>En général, je me fie à ce que je ressens.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="15"><div class="lbl"><span class="n">15</span><span>Je sais adresser une critique à quelqu'un de sensible.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="16"><div class="lbl"><span class="n">16</span><span>Lors d'une émotion, je ressens facilement mes changements corporels.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="17"><div class="lbl"><span class="n">17</span><span>Je peux nommer les émotions que les autres éprouvent.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="18"><div class="lbl"><span class="n">18</span><span>Au travail, je parle de mes émotions avec facilité.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="19"><div class="lbl"><span class="n">19</span><span>Lors de discussions, je prête attention à ce que les autres ressentent.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="20"><div class="lbl"><span class="n">20</span><span>Quand quelqu'un éprouve une émotion, je sais pourquoi.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="21"><div class="lbl"><span class="n">21</span><span>Je sais me contrôler lors de situations très chargées en émotions.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="22"><div class="lbl"><span class="n">22</span><span>Face aux émotions fortes des autres, je reste calme.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="23"><div class="lbl"><span class="n">23</span><span>Lors d'un conflit, je cherche à résoudre le désaccord.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="24"><div class="lbl"><span class="n">24</span><span>Je me réjouis quand je réussis quelque chose.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="25"><div class="lbl"><span class="n">25</span><span>Je sais écouter en me mettant à la place de l'autre.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="26"><div class="lbl"><span class="n">26</span><span>Je détecte chez l'autre les signes non verbaux de son émotion.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="27"><div class="lbl"><span class="n">27</span><span>Je parle de ce qui m'inquiète ou me contrarie.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="28"><div class="lbl"><span class="n">28</span><span>Je sais quoi faire quand quelque chose me dérange.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="29"><div class="lbl"><span class="n">29</span><span>Je comprends les réactions des autres quand quelque chose les dérange.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="q" data-q="30"><div class="lbl"><span class="n">30</span><span>Je garde mon calme même quand on cherche à me provoquer.</span></div><div class="opts" role="group"><button type="button" data-v="1" aria-pressed="false" aria-label="1 sur 6">1</button><button type="button" data-v="2" aria-pressed="false" aria-label="2 sur 6">2</button><button type="button" data-v="3" aria-pressed="false" aria-label="3 sur 6">3</button><button type="button" data-v="4" aria-pressed="false" aria-label="4 sur 6">4</button><button type="button" data-v="5" aria-pressed="false" aria-label="5 sur 6">5</button><button type="button" data-v="6" aria-pressed="false" aria-label="6 sur 6">6</button></div></div><div class="res" id="res"><div class="card"><h2>Mon total général</h2><div class="score"><div class="big" id="sc">0</div><div class="sur">sur 180</div><div class="pal" id="pal"></div></div><p id="txt"></p></div><div class="card"><h2>Mes cinq compétences</h2><div class="subs" id="sub"></div><p style="margin-top:16px;color:var(--muted);font-size:14px">Chaque compétence va de 6 à 36. La plus haute est celle sur laquelle vous pouvez vous appuyer, la plus basse celle que vous pouvez faire évoluer.</p></div><div class="card warn"><h2>À retenir</h2><p>Ce test est un repérage, pas une évaluation. Un score bas sur une compétence ne dit rien de votre valeur : il dit où vous avez de la marge.</p></div><button class="again" type="button" onclick="reset()">Recommencer</button></div><footer><p>D'après le livret d'exercices Université Évry Paris-Saclay - mise en forme numérique 23 MindSet - Fares ATBA</p><p>Source : Test de profil émotionnel du livret d'exercices, cinq domaines de l'intelligence émotionnelle.</p><p>Vos réponses restent sur votre téléphone. Rien n'est enregistré, rien n'est envoyé.</p><p>&copy; 2026 - 23 MindSet - Fares ATBA</p></footer></div><div class="go"><div class="in"><button id="go" type="button" disabled>Voir mon profil</button></div></div>
+<button class="tog" id="tog" type="button" aria-label="Changer l'affichage">☀</button>
+<script>
+(function(){
+ var b=document.getElementById('tog');
+ function cur(){var a=document.documentElement.getAttribute('data-theme');
+   if(a)return a;
+   try{return window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}catch(e){return 'dark';}}
+ function paint(){var d=cur()==='dark';
+   b.textContent=d?'☀':'☾';
+   b.setAttribute('aria-label',d?'Passer en affichage clair':'Passer en affichage sombre');
+   b.setAttribute('title',b.getAttribute('aria-label'));}
+ b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';
+   document.documentElement.setAttribute('data-theme',n);
+   try{localStorage.setItem('ef-theme',n);}catch(e){}paint();});
+ paint();
+ try{window.matchMedia('(prefers-color-scheme: light)').addEventListener('change',paint);}catch(e){}
+})();
+
+var LAB=null, NQ=30, ans={};
+function up(){var n=Object.keys(ans).length;
+  document.getElementById('pc').textContent=n;
+  document.getElementById('pb').style.width=(100*n/NQ)+'%';
+  document.getElementById('go').disabled=(n<NQ);}
+document.querySelectorAll('.q').forEach(function(q){
+  var id=q.getAttribute('data-q'), ch=q.querySelector('.chosen');
+  q.querySelectorAll('.opts button').forEach(function(b){
+    b.addEventListener('click',function(){
+      q.querySelectorAll('.opts button').forEach(function(x){x.setAttribute('aria-pressed','false');});
+      b.setAttribute('aria-pressed','true');
+      ans[id]=parseInt(b.getAttribute('data-v'),10);
+      if(LAB)ch.textContent=LAB[ans[id]];
+      up();});});});
+function reset(){ans={};
+  document.querySelectorAll('.opts button').forEach(function(b){b.setAttribute('aria-pressed','false');});
+  document.querySelectorAll('.chosen').forEach(function(c){c.textContent='';});
+  document.getElementById('res').classList.remove('on');
+  document.body.classList.remove('done');
+  document.getElementById('go').textContent=GOTXT;
+  up();window.scrollTo(0,0);}
+up();
+
+var GOTXT='Voir mon profil';
+var COMP=[["Comprendre ses émotions",[4,5,11,12,14,16]],["Gérer son équilibre émotionnel",[6,7,9,13,24,28]],["Être ouvert aux émotions de l'autre",[1,17,19,20,26,29]],["Exprimer et partager son ressenti",[2,3,10,18,25,27]],["Gérer les émotions en situation de tension",[8,15,21,22,23,30]]], PAL=[[30,59,"Les émotions vous dominent","Les émotions ne sont pas gérées : elles vous dominent."],[60,89,"Difficiles à gérer","Les émotions sont difficiles à gérer pour vous."],[90,119,"Variable","Vous gérez parfois bien les émotions, mais parfois elles vous dépassent."],[120,149,"Bien gérées","Vous gérez bien la plupart des situations émotionnelles."],[150,180,"Très bien gérées","Vous gérez très bien vos émotions."]], PC=[[6,12,"non maîtrisée"],[13,18,"difficilement maîtrisée"],[19,24,"parfois assez bien maîtrisée"],[25,30,"bien maîtrisée"],[31,36,"très bien maîtrisée"]];
+document.getElementById('go').addEventListener('click',function(){
+  var tot=0,h='';
+  COMP.forEach(function(c){var s=0;c[1].forEach(function(i){s+=ans[i];});tot+=s;
+    var mot='';for(var k=0;k<PC.length;k++){if(s>=PC[k][0]&&s<=PC[k][1])mot=PC[k][2];}
+    h+='<div class="sub"><div class="nm">'+c[0]+'</div><div class="tr"><i style="width:'+
+       (100*(s-6)/30)+'%"></i></div><div class="vl">'+s+' / 36</div></div>'+
+       '<div style="font-size:13px;color:var(--muted);margin:-4px 0 6px">'+mot+'</div>';});
+  document.getElementById('sc').textContent=tot;
+  document.getElementById('sub').innerHTML=h;
+  var p=PAL[0];for(var k=0;k<PAL.length;k++){if(tot>=PAL[k][0]&&tot<=PAL[k][1])p=PAL[k];}
+  document.getElementById('pal').textContent=p[2];
+  document.getElementById('txt').textContent=p[3];
+  document.getElementById('res').classList.add('on');
+  document.body.classList.add('done');
+  this.textContent='Profil affiché ci-dessous';
+  document.getElementById('res').scrollIntoView({behavior:'smooth'});});
+</script>
+</body>
+</html>
